@@ -10,7 +10,7 @@
             <input type="text" name="fullName" id="fullNameField" v-model="fullName">
             <div v-if="fullNameErrorMessage !== ''">
                 <br >
-                <span>{{ fullNameErrorMessage }}</span>
+                <span id="fullNameErrorMessage">{{ fullNameErrorMessage }}</span>
             </div>
             <br />
             <br />
@@ -19,7 +19,7 @@
             <input type="email" name="email" id="emailField" v-model="email">
             <div v-if="emailErrorMessage !== ''">
                 <br >
-                <span>{{ emailErrorMessage }}</span>
+                <span id="emailErrorMessage">{{ emailErrorMessage }}</span>
             </div>
 
             <br />
@@ -34,7 +34,7 @@
             <input type="text" name="daysForAvailability" id="daysForAvailabilityField" v-model="daysForAvailability">
             <div v-if="daysForAvailabilityErrorMessage !== ''">
                 <br >
-                <span>{{ daysForAvailabilityErrorMessage }}</span>
+                <span id="daysForAvailabilityErrorMessage">{{ daysForAvailabilityErrorMessage }}</span>
             </div>
 
             <br />
@@ -80,7 +80,7 @@
                     }
                 },
                 validateDaysForAvailability: function(){
-                    if(this.flexible && (this.daysForAvailability === '' || (isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0))){
+                    if(!this.flexible && (this.daysForAvailability === '' || (isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0))){
                         this.daysForAvailabilityErrorMessage = 'Days for Availability should have a valid value.';
                     }1
                 }
