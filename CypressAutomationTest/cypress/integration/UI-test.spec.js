@@ -1,0 +1,96 @@
+/// <reference types="cypress" />
+const path = require('path');
+
+import UserFormPage from '../support/PageObjects/UserFormPage'
+
+describe('', () => {
+
+    const userFormPage = new UserFormPage();
+
+    beforeEach(() => {
+
+        cy.visit(path.join(__dirname, "../../site/telus-exam.html"))
+    })
+
+    it('Verify error message is displayed if no value is supplied for full name after clicking save', () => {
+
+        userFormPage.clickSaveBtn()
+
+        cy.get('#fullNameErrorMessage')
+        .should('be.visible')
+        .and('have.text', 'Full Name is required.')
+
+    })
+
+    it('Verify error message is displayed if full name field exceed 100 characters', () => {
+        const moreThan100CharFullName = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut'
+
+        userFormPage.inputFullName(moreThan100CharFullName)
+        userFormPage.clickSaveBtn()
+
+        cy.get('#fullNameErrorMessage')
+        .should('be.visible')
+        .and('have.text', 'Full Name exceeds max limit of 100.')
+
+    })
+
+    it('Verify no error message is displayed when email field is blank', () => {
+
+        userFormPage.clickSaveBtn()
+        cy.get('#emailErrorMessage').should('not.exist')
+    })
+
+    it('Verify days for availability field is not required when flexible checkbox is checked', () =>{
+
+        userFormPage.isCheckBoxChecked(true)
+        userFormPage.clickSaveBtn()
+
+        cy.get('#daysForAvailabilityErrorMessage')
+        .should('not.exist')
+    })
+
+    it('verify error message is displayed when flexible checkbox is checked and invalid value is supplied for Days For Availability', () =>{
+
+        const invalidDays = 'invalid'
+
+        userFormPage.isCheckBoxChecked(true)
+        userFormPage.inputDaysForAvailability(invalidDays)
+        userFormPage.clickSaveBtn()
+
+        cy.get('#daysForAvailabilityErrorMessage')
+        .should('be.visible')
+        .and('have.text', 'Days for Availability should have a valid value.')
+    })
+
+    it('Verify no error message is displayed when all required fields have valid value and flexible checkbox is checked', () => {
+
+        const validFullName = 'John Doe'
+
+        userFormPage.inputFullName(validFullName)
+        userFormPage.isCheckBoxChecked(true)
+        userFormPage.clickSaveBtn()
+
+        cy.get('#fullNameErrorMessage').should('not.exist')
+        cy.get('#emailErrorMessage').should('not.exist')
+        cy.get('#daysForAvailabilityErrorMessage').should('not.exist')
+    })
+
+    it.only('verify no error message is displayed when all fields have valid value and flexible checkbox is unchecked', () => {
+        
+        const validFullName = 'John Doe'
+        const validEmail = 'JohnDoe@gmail.com'
+        const validDays = 2
+        
+
+        userFormPage.inputFullName(validFullName)
+        userFormPage.inputEmailAddress(validEmail)
+        userFormPage.isCheckBoxChecked(false)
+        userFormPage.inputDaysForAvailability(validDays)
+        userFormPage.clickSaveBtn()
+
+        cy.get('#fullNameErrorMessage').should('not.exist')
+        cy.get('#emailErrorMessage').should('not.exist')
+        cy.get('#daysForAvailabilityErrorMessage').should('not.exist')
+
+    })
+})

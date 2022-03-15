@@ -1,23 +1,20 @@
 const { test, expect, chromium} = require('@playwright/test');
-// const {chromium, firefox, webkit} = require('@playwright');
-
 const path = require('path');
 
+let page;
+
 test.describe('UI test answers for item 2', () => {
-
-    // test.beforeAll(async () => {
-
-
-    // })
-
-    test('Verify validation message is displayed when invalid email is provided',  async () => {
-
+    test.beforeEach(async ({}) => {
         const browser = await chromium.launch({
-            headless: false,
+            headless: false
+        
         });
+            
+        page = await browser.newPage();
+        await page.goto(path.join(__dirname, "../../site/telus-exam.html"));
+    });
 
-        const page = await browser.newPage();
-        await page.goto(path.join(__dirname, "../../site/telus-exam.html"))
+    test.only('Verify validation message is displayed when invalid email is provided',  async ({}) => {
 
         const invalidEmail = 'testemail';
         await page.fill('#emailField', invalidEmail);
@@ -30,12 +27,6 @@ test.describe('UI test answers for item 2', () => {
 
     test('Verify validation message is displayed for days of availability field',  async () => {
 
-        const browser = await chromium.launch({
-            headless: false,
-        });
-
-        const page = await browser.newPage();
-        await page.goto(path.join(__dirname, "../../site/telus-exam.html"))
 
         if (await page.isChecked('#flexibleCheckBox')) {
             page.locator('#flexibleCheckBox').click();
@@ -51,11 +42,4 @@ test.describe('UI test answers for item 2', () => {
     });
 
 
-    test('Verify no validation message is displayed when all inputs are valid', async () => {
-        
-    })
-
-    test('Verify no validation message is displayed when all inputs are valid', async () => {
-        
-    })
 });

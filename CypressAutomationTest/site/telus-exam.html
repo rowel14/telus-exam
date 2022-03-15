@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Telus Exam</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <label for="fullName">Full Name</label>
+            <input type="text" name="fullName" id="fullNameField" v-model="fullName">
+            <div v-if="fullNameErrorMessage !== ''">
+                <br >
+                <span id="fullNameErrorMessage">{{ fullNameErrorMessage }}</span>
+            </div>
+            <br />
+            <br />
+
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="emailField" v-model="email">
+            <div v-if="emailErrorMessage !== ''">
+                <br >
+                <span id="emailErrorMessage">{{ emailErrorMessage }}</span>
+            </div>
+
+            <br />
+            <br />
+
+            <input type="checkbox" name="flexible" id="flexibleCheckBox" v-model="flexible"> Flexible
+                
+            <br />
+            <br />
+
+            <label for="daysForAvailability">Days For Availability</label>
+            <input type="text" name="daysForAvailability" id="daysForAvailabilityField" v-model="daysForAvailability">
+            <div v-if="daysForAvailabilityErrorMessage !== ''">
+                <br >
+                <span id="daysForAvailabilityErrorMessage">{{ daysForAvailabilityErrorMessage }}</span>
+            </div>
+
+            <br />
+            <br />
+
+            <button @click="save">Save</button>
+
+        </div>
+    </body>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                fullName: '',
+                email: '',
+                flexible: false,
+                daysForAvailability: '',
+                fullNameErrorMessage: '',
+                emailErrorMessage: '',
+                daysForAvailabilityErrorMessage: ''
+            },
+            methods: {
+                save: function() {
+                    this.fullNameErrorMessage = '';
+                    this.emailErrorMessage = '';
+                    this.daysForAvailabilityErrorMessage = '';
+                    this.validateFullName();
+                    this.validateEmail();
+                    this.validateDaysForAvailability();
+                },
+                validateFullName: function(){
+                    if(this.fullName === ''){
+                        this.fullNameErrorMessage = 'Full Name is required.';
+                    }
+                    else if(this.fullName.length > 100){
+                        this.fullNameErrorMessage = 'Full Name exceeds max limit of 100.';
+                    }
+                },
+                validateEmail: function(){
+                    if(this.email !== '' && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)){
+                        this.emailErrorMessage = 'Email has an invalid format';
+                    }
+                },
+                validateDaysForAvailability: function(){
+                    if((!this.flexible && (this.daysForAvailability === '' || (isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0))) || (this.flexible && this.daysForAvailability!= '' && ((isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0)))){
+                        this.daysForAvailabilityErrorMessage = 'Days for Availability should have a valid value.';
+                    }1
+                }
+            }
+        });
+    </script>
+</html>
