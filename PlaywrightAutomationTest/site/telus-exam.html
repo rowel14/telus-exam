@@ -80,9 +80,9 @@
                     }
                 },
                 validateDaysForAvailability: function(){
-                    if(!this.flexible && (this.daysForAvailability === '' || (isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0))){
+                    if((!this.flexible && (this.daysForAvailability === '' || (isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0))) || (this.flexible && this.daysForAvailability!= '' && ((isNaN(this.daysForAvailability) || parseInt(this.daysForAvailability) <= 0)))){
                         this.daysForAvailabilityErrorMessage = 'Days for Availability should have a valid value.';
-                    }1
+                    }
                 }
             }
         });
