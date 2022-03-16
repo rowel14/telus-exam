@@ -10,6 +10,7 @@ test.describe('UI test answers for item 2', () => {
     let userFormPage = null; 
 
     test.beforeEach(async ({}) => {
+
         browser = await chromium.launch({ headless: false });       
         context = await browser.newContext();
         page = await context.newPage();
@@ -17,7 +18,7 @@ test.describe('UI test answers for item 2', () => {
         userFormPage = new UserFormPage(page);
 
         userFormPage.navigate();
-    });
+    })
 
     test('Verify validation message is displayed when invalid email is provided',  async () => {
 
@@ -33,7 +34,7 @@ test.describe('UI test answers for item 2', () => {
         // This asserts if the email error message is visible
         expect(userFormPage.emailErrorMessage).toBeVisible()
 
-    });
+    })
 
     test('Verify validation message is displayed for days of availability field',  async () => {
 
@@ -52,6 +53,6 @@ test.describe('UI test answers for item 2', () => {
 
         // This asserts if days for availability error message is visible
         expect(userFormPage.daysForAvailabilityErrorMessage).toBeVisible();
-    });
+    })
 
-});
+})

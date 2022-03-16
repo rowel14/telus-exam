@@ -1,5 +1,5 @@
 {  
+    "baseUrl": "https://petstore.swagger.io/v2",
     "viewportHeight": 1080,
     "viewportWidth": 1920
-    
 }
